@@ -1,4 +1,4 @@
-package ovh.akio.j2sql.database;
+package me.akio.j2sql.database;
 
 public class MySQL extends Connector {
 

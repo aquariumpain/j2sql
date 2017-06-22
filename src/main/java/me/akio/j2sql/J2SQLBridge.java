@@ -1,8 +1,8 @@
-package ovh.akio.j2sql;
+package me.akio.j2sql;
 
-import ovh.akio.j2sql.annotations.Column;
-import ovh.akio.j2sql.database.Connector;
-import ovh.akio.j2sql.database.J2SQLStatement;
+import me.akio.j2sql.annotations.Column;
+import me.akio.j2sql.database.Connector;
+import me.akio.j2sql.database.J2SQLStatement;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

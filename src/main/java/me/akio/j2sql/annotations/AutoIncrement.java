@@ -1,4 +1,4 @@
-package ovh.akio.j2sql.annotations;
+package me.akio.j2sql.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

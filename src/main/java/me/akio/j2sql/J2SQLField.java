@@ -1,8 +1,8 @@
-package ovh.akio.j2sql;
+package me.akio.j2sql;
 
 
-import ovh.akio.j2sql.annotations.AutoIncrement;
-import ovh.akio.j2sql.annotations.PrimaryKey;
+import me.akio.j2sql.annotations.AutoIncrement;
+import me.akio.j2sql.annotations.PrimaryKey;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
