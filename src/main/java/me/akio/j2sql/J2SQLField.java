@@ -15,10 +15,6 @@ public class J2SQLField {
     private boolean isPrimary = false;
     private boolean isAutoIncrement = false;
 
-    private Method setter = null;
-    private Method getter = null;
-
-
     public J2SQLField(Object parent, Field field) {
 
         this.parent = parent;
@@ -32,8 +28,7 @@ public class J2SQLField {
             }
         }
         this.field = field;
-
-        this.init();
+        this.field.setAccessible(true);
 
     }
 
@@ -50,11 +45,11 @@ public class J2SQLField {
     }
 
     public Object getValue() throws Exception {
-        return this.getter.invoke(parent);
+        return this.field.get(parent);
     }
 
     public void setValue(Object value) throws Exception {
-        this.setter.invoke(parent, value);
+        this.field.set(parent, value);
     }
 
     public boolean isPrimary() {
@@ -67,35 +62,6 @@ public class J2SQLField {
 
     public boolean isAutoIncrement() {
         return isAutoIncrement;
-    }
-
-    private void init(){
-        for (Method method : parent.getClass().getDeclaredMethods()){
-            if ((method.getName().startsWith("set")) && (method.getName().length() == (field.getName().length() + 3))){
-                if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())){
-                    this.setter = method;
-                }
-            }
-        }
-
-
-        if(field.getType().equals(boolean.class) || field.getType().equals(Boolean.class)){
-            for (Method method : parent.getClass().getDeclaredMethods()){
-                if ((method.getName().startsWith("is")) && (method.getName().length() == (field.getName().length() + 2))){
-                    if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())){
-                        this.getter = method;
-                    }
-                }
-            }
-        }else{
-            for (Method method : parent.getClass().getDeclaredMethods()){
-                if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))){
-                    if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())){
-                        this.getter = method;
-                    }
-                }
-            }
-        }
     }
 
 }
