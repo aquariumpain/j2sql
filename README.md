@@ -1,6 +1,13 @@
-# j2sql
+# J2SQL
 
-[How to use it ?](https://github.com/Akio08/j2sql/wiki)
+Java to SQL library : Light, powerful and super useful !
+
+This library was built to make the developers life easier. Now you can "link" java object to SQL tables.
+The supported queries are : `SELECT`, `UPDATE`, `DELETE`, `INSERT INTO`, `CREATE TABLE`.
+
+### How to use it ?
+
+[Click here to check the wiki !](https://github.com/Akio08/j2sql/wiki)
 
 ### Add it to your project !
 
