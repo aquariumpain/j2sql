@@ -24,10 +24,14 @@ public class J2SQLBridge {
     private Object data;
     private HashMap<String, String> fieldsType = new HashMap<>();
     private ArrayList<J2SQLField> fieldList = new ArrayList<>();
+    private String tableName;
 
     public J2SQLBridge(Object data) {
 
         this.data = data;
+        
+        String str = data.getClass().getName();
+        this.tableName = str.substring(str.lastIndexOf(".")+1, str.length());
 
         this.fieldsType.put(String.class.getTypeName(), " VARCHAR(191)");
         this.fieldsType.put(Integer.class.getTypeName(), " INT");
@@ -63,7 +67,7 @@ public class J2SQLBridge {
     private List<J2SQLField> getDataColumn() {
         return this.fieldList.stream().filter(J2SQLField::isNotPrimary).collect(Collectors.toList());
     }
-
+    
     public boolean createTable(Connector database) {
 
         StringBuilder columns = new StringBuilder();
@@ -83,7 +87,7 @@ public class J2SQLBridge {
         String _columns = columns.toString().substring(0, columns.toString().length()-1);
         String _primarykey = primaryKey.toString().substring(0, primaryKey.toString().length()-1);
 
-        String query = String.format(QUERY_CREATE_TABLE, this.data.getClass().getName(), _columns, _primarykey);
+        String query = String.format(QUERY_CREATE_TABLE, this.tableName, _columns, _primarykey);
 
         try {
             J2SQLStatement statement = database.open(query);
@@ -113,7 +117,7 @@ public class J2SQLBridge {
         }
         String _insertData = insertData.toString().substring(0, insertData.toString().length()-1);
         try {
-            J2SQLStatement statement = database.open(String.format(QUERY_INSERT, this.data.getClass().getName(), _insertData));
+            J2SQLStatement statement = database.open(String.format(QUERY_INSERT, this.tableName, _insertData));
             for (J2SQLField j2SQLField : this.fieldList){
                 if(!j2SQLField.isAutoIncrement()){
                     try {
@@ -142,7 +146,7 @@ public class J2SQLBridge {
         String _updatedData = updatedData.toString().substring(0, updatedData.toString().length()-2);
         String _selector = selectors.toString().substring(0, selectors.toString().length()-5);
         try {
-            J2SQLStatement statement = database.open(String.format(QUERY_UPDATE, this.data.getClass().getName(), _updatedData, _selector));
+            J2SQLStatement statement = database.open(String.format(QUERY_UPDATE, this.tableName, _updatedData, _selector));
             for (J2SQLField j2SQLField : this.getDataColumn())
                 statement.set(j2SQLField.getValue());
             for (J2SQLField j2SQLField : this.getUniqueColumn())
@@ -159,7 +163,7 @@ public class J2SQLBridge {
         this.getUniqueColumn().forEach(j2SQLField -> selectors.append("`").append(j2SQLField.getName()).append("` = ? AND "));
         String _selector = selectors.toString().substring(0, selectors.toString().length()-5);
         try {
-            J2SQLStatement statement = database.open(String.format(QUERY_SELECT, this.data.getClass().getName(),  _selector));
+            J2SQLStatement statement = database.open(String.format(QUERY_SELECT, this.tableName,  _selector));
             for (J2SQLField j2SQLField : this.getUniqueColumn())
                 statement.set(j2SQLField.getValue());
 
@@ -183,7 +187,7 @@ public class J2SQLBridge {
         this.getUniqueColumn().forEach(j2SQLField -> selectors.append("`").append(j2SQLField.getName()).append("` = ? AND "));
         String _selector = selectors.toString().substring(0, selectors.toString().length()-5);
         try {
-            J2SQLStatement statement = database.open(String.format(QUERY_REMOVE, this.data.getClass().getName(),  _selector));
+            J2SQLStatement statement = database.open(String.format(QUERY_REMOVE, this.tableName,  _selector));
             for (J2SQLField j2SQLField : this.getUniqueColumn())
                 statement.set(j2SQLField.getValue());
             return statement.execute();
