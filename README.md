@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.Akio08:j2sql:0.2b'
+    compile 'com.github.Akio08:j2sql:0.3b'
 }
 ```
 
@@ -32,6 +32,6 @@ dependencies {
   	<dependency>
 	    <groupId>com.github.Akio08</groupId>
 	    <artifactId>j2sql</artifactId>
-	    <version>0.2b</version>
+	    <version>0.3b</version>
 	</dependency>
 ```
