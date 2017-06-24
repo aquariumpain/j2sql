@@ -31,7 +31,7 @@ public class J2SQLBridge {
         this.data = data;
         
         String str = data.getClass().getName();
-        this.tableName = str.substring(str.lastIndexOf(".")+1, str.length());
+        this.tableName = str.substring(str.lastIndexOf(".")+1, str.length()).toLowerCase();
 
         this.fieldsType.put(String.class.getTypeName(), " VARCHAR(191)");
         this.fieldsType.put(Integer.class.getTypeName(), " INT");
